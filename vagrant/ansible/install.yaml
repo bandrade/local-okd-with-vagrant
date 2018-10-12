@@ -1,0 +1,36 @@
+---
+- name: Configure ssh keys
+  hosts: localhost
+  tasks:
+   - include: tasks/ssh.yaml
+
+- name: Host bootstrapping
+  hosts: all
+  sudo: True
+  user: vagrant
+  tasks:
+  - include: tasks/install_bootstrap_okd.yaml
+  - name: DNS Settings
+    replace:
+      dest: /etc/hosts
+      regexp: '^(127\.0\.0\.1\s*)\S*\.example\.com (.*)'
+      replace: '\1\2'
+
+- name: Install PreReqs Master/Nodes
+  hosts: masters,nodes
+  sudo: True
+  user: vagrant
+  tasks:
+    - include: tasks/prereqs.yaml
+
+- name: Install PreReqs Bastion
+  hosts: localhost
+  sudo: True
+  user: vagrant
+  tasks:
+   - name: Download openshift-ansible github repo
+     git:
+      repo: https://github.com/openshift/openshift-ansible.git
+      version: release-3.11 
+      dest: /home/vagrant/openshift-ansible
+      update: yes

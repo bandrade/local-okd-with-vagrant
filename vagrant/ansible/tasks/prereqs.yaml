@@ -1,0 +1,68 @@
+---
+
+
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install mandatory packages for Openshift
+  yum:
+   name: "{{ item }}"
+   state: present
+  with_items:
+  - telnet
+  - wget 
+  - git 
+  - net-tools 
+  - bind-utils 
+  - iptables-services 
+  - bridge-utils 
+  - bash-completion 
+  - nfs-utils
+  - centos-release-openshift-origin
+
+- name: Install Openshift packages
+  yum:
+   name: "{{ item }}"
+   state: present
+  with_items:
+  - ansible
+  - bind-utils 
+  - iptables-services 
+  - bridge-utils 
+  - bash-completion 
+  - nfs-utils
+  - docker
+  - git
+  - pyOpenSSL
+    
+- name: "Docker storage configurations"
+  copy:
+    dest: /etc/sysconfig/docker-storage-setup
+    content: |
+          DEVS=/dev/sdb
+          VG=docker-vg
+
+- name: "Stops firewalld"
+  service:
+   name: firewalld
+   state: stopped
+
+- name: "Disable firewalld"
+  service:
+   name: firewalld
+   enabled: no
+
+- name: "Docker Storage Setup"
+  command: docker-storage-setup 
+
+- name: "Enable Docker"
+  service:
+   name: docker
+   enabled: yes
+
+- name: "Starts Docker"
+  service:
+   name: docker
+   state: started

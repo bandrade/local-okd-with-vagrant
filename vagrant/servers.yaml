@@ -1,0 +1,84 @@
+---
+- name: master1.example.com
+  ip: 192.168.50.20
+  memory: 5120
+  cpu: 2
+  disks:
+  - disk_name: master1.vdi
+    disk_size: 10240
+  alias: "master1"
+ 
+- name: node1.example.com
+  ip: 192.168.50.22
+  memory: 3096
+  cpu: 2
+  disks:
+  - disk_name: node1.vdi
+    disk_size: 10240
+  - disk_name: cns_node1.vdi
+    disk_size: 10240
+  alias: node1
+
+- name: node2.example.com
+  ip: 192.168.50.23
+  memory: 3096
+  cpu: 2
+  disks:
+  - disk_name: node2.vdi
+    disk_size: 10240
+  - disk_name: cns_node2.vdi
+    disk_size: 10240
+  alias: node2
+
+- name: infranode1.example.com
+  ip: 192.168.50.24
+  memory: 3096
+  cpu: 2
+  disks:
+  - disk_name: infranode1.vdi
+    disk_size: 10240
+  - disk_name: cns_infranode1.vdi
+    disk_size: 10240
+  alias: infranode1
+
+- name: admin1.example.com
+  ip: 192.168.50.26
+  memory: 512
+  cpu: 1
+  disks:
+  - disk_name: admin.vdi
+    disk_size: 1024
+  alias: admin1
+  sync:
+   - sync_type: sshfs 
+     source: ".."
+     target: "/home/vagrant/sync"
+   
+   - sync_type: sshfs 
+     source: ".vagrant"
+     target: "/home/vagrant/.hidden"
+  ansible: 
+   - script: "install pre-reqs" 
+     verbose: false
+     install: true
+     group: "OSEv3:localhost"
+     path: "/home/vagrant/sync/vagrant"
+     playbook: "/home/vagrant/sync/vagrant/ansible/install.yaml"
+     inventory: "/home/vagrant/sync/vagrant/ansible/inventory"
+   
+   - script: "verify facts OCP" 
+     verbose: false
+     install: true
+     group: "OSEv3:localhost"
+     path: "/home/vagrant/sync/vagrant"
+     playbook: "/home/vagrant/openshift-ansible/playbooks/prerequisites.yml"
+     inventory: "/home/vagrant/sync/vagrant/ansible/inventory"
+
+   - script: "install OCP" 
+     verbose: false
+     install: true
+     group: "OSEv3:localhost"
+     path: "/home/vagrant/sync/vagrant"
+     playbook: "/home/vagrant/openshift-ansible/playbooks/deploy_cluster.yml"
+     inventory: "/home/vagrant/sync/vagrant/ansible/inventory"
+
