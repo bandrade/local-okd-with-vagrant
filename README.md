@@ -1,15 +1,11 @@
 Overview
 --------
 
-This is a Vagrant based project that demonstrates an advanced Openshift Origin Latest or Container Platform 3.6 install i.e. one using an Ansible playbook.
+This is a Vagrant based project that demonstrates an advanced Origin Community Distribution of Kubernetes by using an Ansible playbook.
 
-The documentation for the installation process can be found at
+The documentation for the installation process can be found at:
 
-https://docs.openshift.org/latest/welcome/index.html
-
-or
-
-https://docs.openshift.com/container-platform/3.7/install_config/install/planning.html
+https://docs.okd.io/latest/welcome/index.html
 
 
 Pre-requisites
@@ -23,28 +19,11 @@ Install the following vagrant plugins:
 
 * landrush (1.1.2)
 * vagrant-hostmanager (1.8.5)
-* (If intending to install Openshift Container Platform then) vagrant-registration (found within the Red Hat CDK 2.2)
 
-The Openshift Container Platform install requires importing a RHEL 7.2 box, the easiest way to do this is use the packet tool from hashicorp. The steps are described at
-
-https://stomp.colorado.edu/blog/blog/2015/12/24/on-building-red-hat-enterprise-linux-vagrant-boxes/
-
-The iso image that the vagrant image is created from should be the 'RHEL 7.2 Binary DVD' image on the Red Hat downloads site. The box name I have used in the Vagrantfile is 'rhel/7.2'
-
-Installation
 ------------
 Define your disks location by exporting the DISKS_LOCATION environment variable, by default it uses the current directory
 
     export DISKS_LOCATION=<location>
-
-Define your Redhat account details by exporting SUBS_USERNAME and SUBS_PASSWORD enviroment variables
-
-    export SUBS_USERNAME=<your_username>@redhat.com
-    export SUBS_PASSWORD=<your_passwd>
-
-Define which version of Openshift Container Platform by exporting enviroment OPENSHIFT_REPO environmnet variable
-
-    export OPENSHIFT_REPO=rhel-7-server-ose-3.<X>-rpms
 
 Clone the repository 
 
