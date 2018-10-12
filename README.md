@@ -11,7 +11,6 @@ https://docs.okd.io/latest/welcome/index.html
 Pre-requisites
 --------------
 
-* (If intending to install Openshift Container Platform then) a Red Hat Account is required so that the VM can be registered via subscription manager.
 * Vagrant
 * VirtualBox or Libvirt (--provider=libvirt)
 
