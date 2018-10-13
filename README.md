@@ -26,7 +26,7 @@ Define your disks location by exporting the DISKS_LOCATION environment variable,
 
 Clone the repository 
 
-    git clone https://github.com/bandrade/local-ocp-with-vagrant.git
+    git clone https://github.com/bandrade/local-okd-with-vagrant.git
     cd vagrant
     vagrant up 
 
